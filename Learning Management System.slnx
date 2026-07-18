@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/SharedKernel/" />
+  <Folder Name="/SharedKernel/Shared/" />
+  <Folder Name="/SharedKernel/Shared/Errors/" />
   <Project Path="LMS.API/LMS.API.csproj" />
   <Project Path="LMS.Application/LMS.Application.csproj" />
   <Project Path="LMS.Domain/LMS.Domain.csproj" />
