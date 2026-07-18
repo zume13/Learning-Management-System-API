@@ -1,12 +1,7 @@
 ﻿
-using SharedKernel.Primitives;
-
 namespace LMS.Domain.Entities.Identity.Users
 {
-    public class User : Entity
+    public class User
     {
-        private User(
-            Guid id
-            ):base(id)
     }
 }

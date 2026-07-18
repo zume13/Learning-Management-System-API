@@ -3,4 +3,5 @@
   <Project Path="LMS.Application/LMS.Application.csproj" />
   <Project Path="LMS.Domain/LMS.Domain.csproj" />
   <Project Path="LMS.Infrastructure/LMS.Infrastructure.csproj" />
+  <Project Path="SharedKernel/SharedKernel.csproj" Id="b70ee290-19b0-49cb-9faa-44a301556c4a" />
 </Solution>
