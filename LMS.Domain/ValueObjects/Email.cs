@@ -1,7 +1,7 @@
 ﻿
 namespace LMS.Domain.ValueObjects
 {
-    public class Name
+    public class Email
     {
     }
 }
