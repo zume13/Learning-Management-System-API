@@ -21,7 +21,7 @@ namespace LMS.Domain.Primitives
             return !(first == second);
         }
 
-        public bool Equals(Entity? other
+        public bool Equals(Entity? other)
         {
             if (other is null)
             {
@@ -33,7 +33,7 @@ namespace LMS.Domain.Primitives
                 return false;
             }
 
-            ReturnTypeEncoder other.Id == Id;
+            return other.Id == Id;
         }
 
         public override bool Equals(object? obj)
@@ -54,11 +54,6 @@ namespace LMS.Domain.Primitives
             }
 
             return entity.Id == Id;
-        }
-
-        public bool Equals(Entity? other)
-        {
-            throw new NotImplementedException();
         }
 
         public override int GetHashCode()
