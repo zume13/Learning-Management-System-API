@@ -5,7 +5,7 @@ namespace LMS.Domain.Entities.Identity.Users
 {
     public class User
     {
-        private User(string firstName, string lastName, Guid refreshTokenId)
+        private User(Name firstName, Name lastName, Guid refreshTokenId)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -17,9 +17,9 @@ namespace LMS.Domain.Entities.Identity.Users
         private Email Email { get; set; }
         private string HashedPassword { get; set; }
 
-        public User Create(string firstName, string lastName)
+        public User Create(Name firstName, Name lastName, RefreshToken _refreshToken)
         {
-            var refreshToken = new RefreshToken();
+            var refreshToken = _refreshToken;
             var refreshTokenId = Guid.NewGuid();
 
             return new User(firstName, lastName, refreshTokenId);
@@ -27,7 +27,7 @@ namespace LMS.Domain.Entities.Identity.Users
 
         public User Update(string firstName, string lastName)
         {
-           
+            throw new NotImplementedException();
         }
     }
 }
