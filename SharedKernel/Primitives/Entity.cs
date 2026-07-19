@@ -1,4 +1,13 @@
+<<<<<<< HEAD
+<<<<<<< HEAD:LMS.Domain/Primitives/Entity.cs
+﻿
+namespace LMS.Domain.Primitives
+=======
+﻿namespace SharedKernel.Primitives
+>>>>>>> 4fece4006fdd198d575e376a602d69f8a6250f74:SharedKernel/Primitives/Entity.cs
+=======
 ﻿namespace LeaveManagement.SharedKernel.Primitives
+>>>>>>> cb790b9f44ac59bd67456e2c1f2c9ba195f66d26
 {
     public abstract class Entity : IEquatable<Entity>
     {

@@ -1,6 +1,14 @@
 <Solution>
+<<<<<<< HEAD
+  <Folder Name="/SharedKernel/" />
+  <Folder Name="/SharedKernel/Shared/" />
+  <Folder Name="/SharedKernel/Shared/Errors/">
+    <File Path="RefreshTokenError.cs" />
+  </Folder>
+=======
   <Folder Name="/Shared/" />
   <Folder Name="/Shared/Errors/" />
+>>>>>>> 4fece4006fdd198d575e376a602d69f8a6250f74
   <Project Path="LMS.API/LMS.API.csproj" />
   <Project Path="LMS.Application/LMS.Application.csproj" />
   <Project Path="LMS.Domain/LMS.Domain.csproj" />
