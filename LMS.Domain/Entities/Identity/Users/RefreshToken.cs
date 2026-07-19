@@ -1,5 +1,4 @@
-﻿
-using LMS.Domain.Primitives;
+﻿using LeaveManagement.SharedKernel.Primitives;
 
 namespace LMS.Domain.Entities.Identity.Users
 {

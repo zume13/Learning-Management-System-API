@@ -5,24 +5,21 @@ namespace LMS.Domain.Entities.Identity.Users
 {
     public class User
     {
-        private User(Name firstName, Name lastName, Guid refreshTokenId)
+        private User(Name firstName, Name lastName, Email email, string hashedPassword)
         {
             FirstName = firstName;
             LastName = lastName;
-            RefreshTokenId = refreshTokenId;
+            Email = email;
+            HashedPassword = hashedPassword;
         }
         private Name FirstName { get; set; }
         private Name LastName { get; set; }
-        private Guid RefreshTokenId { get; set; }
         private Email Email { get; set; }
         private string HashedPassword { get; set; }
 
-        public User Create(Name firstName, Name lastName, RefreshToken _refreshToken)
+        public User Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
-            var refreshToken = _refreshToken;
-            var refreshTokenId = Guid.NewGuid();
-
-            return new User(firstName, lastName, refreshTokenId);
+            return new User(firstName, lastName, email, hashedPassword);
         }
 
         public User Update(string firstName, string lastName)
