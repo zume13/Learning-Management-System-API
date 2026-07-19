@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
+﻿
 namespace LMS.Domain.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
