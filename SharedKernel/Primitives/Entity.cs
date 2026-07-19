@@ -56,7 +56,7 @@
 
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Id.GetHashCode() * 41;
         }
     }
 }
