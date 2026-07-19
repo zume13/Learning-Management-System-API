@@ -26,6 +26,5 @@ namespace LMS.Domain.Entities.Identity.Users
         public DateTime? RevokedDate { get; private set; }
 
         public Guid? ReplacedByTokenId { get; private set; }
-
     }
 }
