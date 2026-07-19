@@ -13,6 +13,7 @@ namespace LMS.Domain.Entities.Identity.Users
             ExpiryDate = expiryDate;
         }
 
+
         public string TokenHash { get; private set; }
 
         public Guid UserId { get; private set; }
@@ -21,14 +22,11 @@ namespace LMS.Domain.Entities.Identity.Users
 
         public DateTime CreateDate { get; private set; }
 
-        public bool Revoked { get; private set; }
+        public bool IsRevoked { get; private set; }
 
         public DateTime? RevokedDate { get; private set; }
 
-        public Guid? ReplacedByTokenID { get; private set; }
-
-
-        
+        public Guid? ReplacedByTokenId { get; private set; }
 
     }
 }
