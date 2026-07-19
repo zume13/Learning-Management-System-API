@@ -1,5 +1,9 @@
+<<<<<<< HEAD:LMS.Domain/Primitives/Entity.cs
 ﻿
 namespace LMS.Domain.Primitives
+=======
+﻿namespace SharedKernel.Primitives
+>>>>>>> 4fece4006fdd198d575e376a602d69f8a6250f74:SharedKernel/Primitives/Entity.cs
 {
     public abstract class Entity : IEquatable<Entity>
     {
@@ -8,7 +12,7 @@ namespace LMS.Domain.Primitives
             Id = id;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; private init; }
 
         public static bool operator ==(Entity? first, Entity? second)
         {
