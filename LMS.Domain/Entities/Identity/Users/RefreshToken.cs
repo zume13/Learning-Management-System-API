@@ -31,11 +31,10 @@ namespace LMS.Domain.Entities.Identity.Users
 
         private RefreshToken() { }
 
-        public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
+        public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
                 return UserErrors.RefreshToken.EmptyToken;
-
 
             if (expiryDate <= DateTime.UtcNow)
                 return UserErrors.RefreshToken.ExpiredToken;
