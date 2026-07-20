@@ -1,5 +1,7 @@
 
-﻿namespace LMS.SharedKernel.Primitives
+using SharedKernel.DomainEvent;
+
+namespace LMS.SharedKernel.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
     {

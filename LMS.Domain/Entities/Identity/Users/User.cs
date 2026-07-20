@@ -1,11 +1,14 @@
 ﻿using LMS.Domain.ValueObjects;
+using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Users
 {
-    public class User
+    public class User : AggregateRoot
     {
-        private User(Name firstName, Name lastName, Email email, string hashedPassword)
+        private User(Guid id, Name firstName, Name lastName, Email email, string hashedPassword) 
+            : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -35,7 +38,7 @@ namespace LMS.Domain.Entities.Identity.Users
             if(string.IsNullOrEmpty(hashedPassword))
                 return UserErrors.User.Empty(nameof(hashedPassword));
 
-            return new User(firstName, lastName, email, hashedPassword);
+            return new User(Guid.NewGuid(), firstName, lastName, email, hashedPassword);
         }
 
         public Result AssignToRole(Guid roleId)
@@ -54,10 +57,20 @@ namespace LMS.Domain.Entities.Identity.Users
                 return UserErrors.User.Empty(nameof(firstName));
             if (string.IsNullOrEmpty(lastName.value))
                 return UserErrors.User.Empty(nameof(lastName));
-            FirstName = firstName;
-            LastName = lastName;
+
+            this.FirstName = firstName;
+            this.LastName = lastName;
+
             return this;
         }
 
+        public ResultT<User> UpdateEmail(Email email)
+        {
+            if (string.IsNullOrEmpty(email.value))
+                return UserErrors.User.Empty(nameof(email));
+            this.Email = email;
+
+            return this;
+        }
     }
 }
