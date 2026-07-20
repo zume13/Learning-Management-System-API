@@ -1,4 +1,5 @@
-﻿using LMS.Domain.Primitives;
+﻿using LMS.SharedKernel.Primitives;
+using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Roles
 {

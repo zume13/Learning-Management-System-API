@@ -1,6 +1,4 @@
-﻿
-using LMS.Domain.Primitives;
-using SharedKernel.Result;
+﻿using LMS.SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Users

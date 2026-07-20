@@ -1,4 +1,5 @@
-﻿using LMS.Domain.Primitives;
+﻿using LMS.SharedKernel.Primitives;
+using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Roles
 {
@@ -17,7 +18,8 @@ namespace LMS.Domain.Entities.Identity.Roles
         public ResultT<Role> Create(string roleName)
         {
             if (string.IsNullOrEmpty(roleName))
-                return RoleError.EmptyRoleName;
+                
+
             return new Role(Guid.NewGuid(), roleName);
         }
     }

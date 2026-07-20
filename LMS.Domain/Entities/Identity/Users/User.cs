@@ -37,5 +37,27 @@ namespace LMS.Domain.Entities.Identity.Users
 
             return new User(firstName, lastName, email, hashedPassword);
         }
+
+        public Result AssignToRole(Guid roleId)
+        {
+            if (RoleIds.Contains(roleId))
+                return UserErrors.User.UserAlreadyInRole(roleId.ToString());
+
+            _RoleIds.Add(roleId);
+
+            return Result.Success();
+        }
+
+        public ResultT<User> UpdateName(Name firstName, Name lastName)
+        {
+            if (string.IsNullOrEmpty(firstName.value))
+                return UserErrors.User.Empty(nameof(firstName));
+            if (string.IsNullOrEmpty(lastName.value))
+                return UserErrors.User.Empty(nameof(lastName));
+            FirstName = firstName;
+            LastName = lastName;
+            return this;
+        }
+
     }
 }
