@@ -34,11 +34,11 @@ namespace LMS.Domain.Entities.Identity.Users
         public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
-                return RefreshTokenError.EmptyToken;
+                return UserErrors.RefreshToken.EmptyToken;
 
 
             if (expiryDate <= DateTime.UtcNow)
-                return RefreshTokenError.ExpiredToken;
+                return UserErrors.RefreshToken.ExpiredToken;
 
             return new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate);
         }
@@ -46,7 +46,7 @@ namespace LMS.Domain.Entities.Identity.Users
         public Result Revoke(Guid? replacedByTokenID = null)
         {
             if (IsRevoked)
-                return RefreshTokenError.RevokedToken;
+                return UserErrors.RefreshToken.RevokedToken;
 
             IsRevoked = true;
             RevokedDate = DateTime.UtcNow;
