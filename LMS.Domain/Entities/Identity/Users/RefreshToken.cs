@@ -5,13 +5,13 @@ namespace LMS.Domain.Entities.Identity.Users
 {
     public class RefreshToken : Entity
     {
-        public RefreshToken(Guid id, string tokenHash, Guid userId, DateTime expiryDate)
+        public RefreshToken(Guid id, string tokenHash, Guid userId, DateTime expiryDate, DateTime createDate)
              : base(id)
         {
             TokenHash = tokenHash;
             UserId = userId;
             ExpiryDate = expiryDate;
-            CreateDate = DateTime.UtcNow;
+            CreateDate = createDate;
         }
 
         public string TokenHash { get; private set; }
@@ -34,19 +34,18 @@ namespace LMS.Domain.Entities.Identity.Users
         public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
-                return RefreshTokenError.EmptyToken;
-
+                return UserErrors.RefreshToken.EmptyToken;
 
             if (expiryDate <= DateTime.UtcNow)
-                return RefreshTokenError.ExpiredToken;
+                return UserErrors.RefreshToken.ExpiredToken;
 
-            return new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate);
+            return new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate, createDate);
         }
 
         public Result Revoke(Guid? replacedByTokenID = null)
         {
             if (IsRevoked)
-                return RefreshTokenError.RevokedToken;
+                return UserErrors.RefreshToken.RevokedToken;
 
             IsRevoked = true;
             RevokedDate = DateTime.UtcNow;

@@ -1,5 +1,4 @@
 ﻿using LMS.Domain.ValueObjects;
-using LMS.SharedKernel.Primitives;
 using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
@@ -15,12 +14,11 @@ namespace LMS.Domain.Entities.Identity.Users
             Email = email;
             HashedPassword = hashedPassword;
         }
-        private Name FirstName { get; set; }
-        private Name LastName { get; set; }
-        private Email Email { get; set; }
-        private string HashedPassword { get; set; }
+        public Name FirstName { get; private set; }
+        public Name LastName { get; private set; }
+        public Email Email { get; private set; }
+        public string HashedPassword { get; private set; }
 
-        //Collections of roles
         private readonly List<Guid> _RoleIds = new();
         public IReadOnlyCollection<Guid> RoleIds => _RoleIds;
 
@@ -51,24 +49,42 @@ namespace LMS.Domain.Entities.Identity.Users
             return Result.Success();
         }
 
-        public ResultT<User> UpdateName(Name firstName, Name lastName)
+        public ResultT<User> UpdateName(string firstName, string lastName)
         {
-            if (string.IsNullOrEmpty(firstName.value))
-                return UserErrors.User.Empty(nameof(firstName));
-            if (string.IsNullOrEmpty(lastName.value))
-                return UserErrors.User.Empty(nameof(lastName));
+            var _firstName = Name.Create(firstName);
 
-            this.FirstName = firstName;
-            this.LastName = lastName;
+            if(_firstName.IsFailure)
+                return _firstName.Error;
+
+            var _lastName = Name.Create(lastName);
+
+            if(_lastName.IsFailure)
+                return _lastName.Error;
+
+            this.FirstName = _firstName.value;
+            this.LastName = _lastName.value;
 
             return this;
         }
 
-        public ResultT<User> UpdateEmail(Email email)
+        public ResultT<User> UpdateEmail(string email)
         {
-            if (string.IsNullOrEmpty(email.value))
-                return UserErrors.User.Empty(nameof(email));
-            this.Email = email;
+            var _email = Email.Create(email);
+
+            if(_email.IsFailure)
+                return _email.Error;
+
+            this.Email = _email.value;
+
+            return this;
+        }
+
+        public ResultT<User> UpdatePassword(string hashedPassword)
+        {
+            if (string.IsNullOrEmpty(hashedPassword))
+                return UserErrors.User.Empty(nameof(hashedPassword));
+
+            this.HashedPassword = hashedPassword;
 
             return this;
         }

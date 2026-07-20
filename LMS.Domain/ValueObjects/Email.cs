@@ -10,7 +10,7 @@ namespace LMS.Domain.ValueObjects
         {
             this.value = value;
         }
-        public string value { get; private set; }
+        public string value { get; init; }
         public override IEnumerable<object> GetAtomicValues()
         {
             yield return value;
