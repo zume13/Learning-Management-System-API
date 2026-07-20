@@ -31,22 +31,21 @@ namespace LMS.Domain.Entities.Identity.Users
 
         private RefreshToken() { }
 
-        public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
+        public static Result<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
-                return RefreshTokenError.EmptyToken;
-
+                return Result<RefreshToken>.Failure(UserErrors.RefreshToken.EmptyToken);
 
             if (expiryDate <= DateTime.UtcNow)
-                return RefreshTokenError.ExpiredToken;
+                return Result<RefreshToken>.Failure(UserErrors.RefreshToken.ExpiredToken);
 
-            return new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate);
+            return Result<RefreshToken>.Success(new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate));
         }
 
         public Result Revoke(Guid? replacedByTokenID = null)
         {
             if (IsRevoked)
-                return RefreshTokenError.RevokedToken;
+                return Result.Failure(UserErrors.RefreshToken.RevokedToken);
 
             IsRevoked = true;
             RevokedDate = DateTime.UtcNow;
