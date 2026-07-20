@@ -17,7 +17,7 @@ namespace LMS.Domain.ValueObjects
             yield return value;
         }
 
-        public ResultT<Name> Create(string value)
+        public static ResultT<Name> Create(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return ValueObjectErrors.Name.NameIsRequired;

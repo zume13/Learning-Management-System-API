@@ -34,7 +34,7 @@ namespace SharedKernel.Shared
         }
 
         [NotNull]
-        public TValue Value => IsSuccess ? _value! : throw new InvalidOperationException("Cannot access the value of a failed result.");
+        public TValue value => IsSuccess ? _value! : throw new InvalidOperationException("Cannot access the value of a failed result.");
 
         public static implicit operator ResultT<TValue>(TValue? value)
             => value is not null
