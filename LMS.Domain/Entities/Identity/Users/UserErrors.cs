@@ -16,4 +16,5 @@ namespace LMS.Domain.Entities.Identity.Users
             public static Error ExpiredToken => Error.Failure("RefreshToken.ExpiredToken", "Refresh token has expired.");
             public static Error RevokedToken => Error.Failure("RefreshToken.RevokedToken", "Refresh token has been revoked.");
         }
+    }
 }
