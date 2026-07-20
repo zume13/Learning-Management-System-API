@@ -1,5 +1,5 @@
-﻿
-using LMS.Domain.ValueObjects;
+﻿using LMS.Domain.ValueObjects;
+using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Users
 {
@@ -17,14 +17,25 @@ namespace LMS.Domain.Entities.Identity.Users
         private Email Email { get; set; }
         private string HashedPassword { get; set; }
 
-        public User Create(Name firstName, Name lastName, Email email, string hashedPassword)
-        {
-            return new User(firstName, lastName, email, hashedPassword);
-        }
+        //Collections of roles
+        private readonly List<Guid> _RoleIds = new();
+        public IReadOnlyCollection<Guid> RoleIds => _RoleIds;
 
-        public User Update(string firstName, string lastName)
+        public ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrEmpty(firstName.value))
+                return UserErrors.User.Empty(nameof(firstName));
+
+            if(string.IsNullOrEmpty(lastName.value))
+                return UserErrors.User.Empty(nameof(lastName));
+            
+            if(string.IsNullOrEmpty(email.value))
+                return UserErrors.User.Empty(nameof(email));
+
+            if(string.IsNullOrEmpty(hashedPassword))
+                return UserErrors.User.Empty(nameof(hashedPassword));
+
+            return new User(firstName, lastName, email, hashedPassword);
         }
     }
 }

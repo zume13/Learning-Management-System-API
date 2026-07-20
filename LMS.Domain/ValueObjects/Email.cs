@@ -8,12 +8,12 @@ namespace LMS.Domain.ValueObjects
     {
         public Email(string value)
         {
-            this.Value = value;
+            this.value = value;
         }
-        public string Value { get; private set; }
+        public string value { get; private set; }
         public override IEnumerable<object> GetAtomicValues()
         {
-            yield return Value;
+            yield return value;
         }
 
         public static ResultT<Email> Create(string value)

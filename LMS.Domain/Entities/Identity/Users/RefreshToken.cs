@@ -1,6 +1,7 @@
 ﻿
 using LMS.Domain.Primitives;
 using SharedKernel.Result;
+using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Identity.Users
 {
@@ -32,22 +33,22 @@ namespace LMS.Domain.Entities.Identity.Users
 
         private RefreshToken() { }
 
-        public static Result<RefreshToken> Create(Guid userId, string tokenHash)
+        public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
-                return Result<RefreshToken>.Failed(RefreshTokenError.EmptyToken);
+                return RefreshTokenError.EmptyToken;
 
 
             if (expiryDate <= DateTime.UtcNow)
-                return Result<RefreshToken>.Failed(RefreshTokenError.ExpiredToken);
+                return RefreshTokenError.ExpiredToken;
 
-            return Result<RefreshToken>.Success(new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate));
+            return new RefreshToken(Guid.NewGuid(), tokenHash, userId, expiryDate);
         }
 
         public Result Revoke(Guid? replacedByTokenID = null)
         {
             if (IsRevoked)
-                return Result.Failed(RefreshTokenError.RevokedToken);
+                return RefreshTokenError.RevokedToken;
 
             IsRevoked = true;
             RevokedDate = DateTime.UtcNow;
@@ -60,3 +61,4 @@ namespace LMS.Domain.Entities.Identity.Users
 
         public bool IsActive => !IsRevoked && !IsExpired;
     }
+}
