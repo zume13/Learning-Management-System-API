@@ -8,6 +8,9 @@ namespace LMS.Domain.Entities.Identity.Users
         {
             public static Error Empty(string errorName) => Error.Failure($"{errorName}.Empty", $"{errorName} cannot be empty.");
             public static Error UserAlreadyInRole(string roleId) => Error.Failure("User.AlreadyInRole", $"User is already assigned to the role '{roleId}'.");
+            public static Error UserAlreadyEnrolled(string courseId) => Error.Failure("User.AlreadyEnrolled", $"User is already enrolled in the course '{courseId}'.");
+            public static Error InvalidCourse => Error.Failure("User.InvalidCourse", "The course id is empty.");
+            public static Error UserNotEnrolled(string courseId) => Error.Failure("User.StudentNotEnrolled", $"Student is not enrolled in course '{courseId}'.");
         }
 
         public static class RefreshToken

@@ -17,7 +17,7 @@ namespace SharedKernel.DomainEvent
         public static class CourseEventNames
         {
             public const string LessonUploaded = "LessonUploaded";
-            public const string VideoUploaded = "VideoUploaded";
+            public const string CourseArchived = "CourseArchived";
         }
     }
 }

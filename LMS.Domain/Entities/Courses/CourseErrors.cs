@@ -1,5 +1,6 @@
 ﻿
 using SharedKernel.Shared;
+using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 
 namespace LMS.Domain.Entities.Courses
@@ -36,15 +37,25 @@ namespace LMS.Domain.Entities.Courses
                     "Course.AlreadyArchived",
                     "The course has already been archived.");
 
-            public static Error MaximumEnrollmentReached() =>
-                Error.Failure(
-                    "Course.MaximumEnrollmentReached",
-                    "The course has reached its maximum enrollment.");
-
             public static Error InstructorAlreadyAssigned(Guid instructorId) =>
                 Error.Failure(
                     "Course.InstructorAlreadyAssigned",
                     $"Instructor '{instructorId}' is already assigned to this course.");
+
+            public static Error StudentAlreadyEnrolled(string studentId) =>
+                Error.Failure(
+                    "Course.StudentAlreadyEnrolled",
+                    $"Student '{studentId}' is already enrolled in this course.");
+
+            public static Error StudentNotEnrolled(string studentId) =>
+                Error.Failure(
+                    "Course.StudentNotEnrolled",
+                    $"Student '{studentId}' is not enrolled in this course.");
+
+            public static Error InvalidStudent =>
+                Error.Failure(
+                    "Course.InvalidStudent",
+                    "The student id is empty.");
         }
     }
 }

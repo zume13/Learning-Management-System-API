@@ -5,7 +5,7 @@ namespace LMS.Domain.Entities.Identity.Roles
 {
     public class Role : AggregateRoot
     {
-        public Role(Guid id, string roleName) : base(id)
+        private Role(Guid id, string roleName) : base(id)
         {
             this.RoleName = roleName;
         }

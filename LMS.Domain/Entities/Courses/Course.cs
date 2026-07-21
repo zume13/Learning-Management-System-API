@@ -1,49 +1,50 @@
-﻿
-using SharedKernel.Primitives;
+﻿using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Courses
 {
     public class Course : AggregateRoot
     {
-        public Course(
+        private Course(
             Guid id,
             string courseCode,
             string courseName,
             string courseDescription,
+            string invitationCode,
             int courseUnits,
-            int maxStudents,
             Guid instructorId) 
             : base(id)
         {
             CourseCode = courseCode;
             CourseName = courseName;
             CourseDescription = courseDescription;
+            InvitationCode = invitationCode;
             CourseUnits = courseUnits;
-            MaxStudents = maxStudents;
             InstructorId = instructorId;
-
+            Status = CourseStatus.Ongoing;
             CreatedAt = DateTime.UtcNow;
         }
 
         public string CourseCode { get; private set; }
         public string CourseName { get; private set; }
         public string CourseDescription { get; private set; }
+        public string InvitationCode { get; private set; }
 
         public int CourseUnits { get; private set; }
-        public int MaxStudents { get; private set; }
 
         public Guid InstructorId { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
         public DateTime? UpdatedAt { get; private set; }
 
+        public CourseStatus Status { get; private set; } 
+
         public ResultT<Course> Create(
             string courseCode,
             string courseName,
             string courseDescription,
+            string invitationCode,
             int courseUnits,
-            int maxStudents,
             Guid instructorId)
         {
             if (string.IsNullOrWhiteSpace(courseCode))
@@ -58,9 +59,6 @@ namespace LMS.Domain.Entities.Courses
             if (courseUnits <= 0)
                 return CourseErrors.Course.InvalidUnits();
 
-            if (maxStudents <= 0)
-                return CourseErrors.Course.InvalidMaxStudents();
-
             if (instructorId == Guid.Empty)
                 return CourseErrors.Course.InvalidInstructor();
 
@@ -69,9 +67,20 @@ namespace LMS.Domain.Entities.Courses
                 courseCode,
                 courseName,
                 courseDescription,
+                invitationCode,
                 courseUnits,
-                maxStudents,
                 instructorId);
         }
+        public Result Archive()
+        {
+            if (Status == CourseStatus.Archived)
+                return CourseErrors.Course.CourseAlreadyArchived();
+
+            Status = CourseStatus.Archived;
+            UpdatedAt = DateTime.UtcNow;
+
+            return Result.Success();
+        }   
+
     }
 }

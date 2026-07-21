@@ -5,7 +5,7 @@ namespace LMS.Domain.Entities.Identity.Roles
 {
     public class Permissions : Entity
     {
-        public Permissions(Guid id, string permissionName, string description) : base(id)
+        private Permissions(Guid id, string permissionName, string description) : base(id)
         {
             this.PermissionName = permissionName;
             this.Description = description;

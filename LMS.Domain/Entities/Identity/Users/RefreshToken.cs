@@ -5,7 +5,7 @@ namespace LMS.Domain.Entities.Identity.Users
 {
     public class RefreshToken : Entity
     {
-        public RefreshToken(Guid id, string tokenHash, Guid userId, DateTime expiryDate, DateTime createDate)
+        private RefreshToken(Guid id, string tokenHash, Guid userId, DateTime expiryDate, DateTime createDate)
              : base(id)
         {
             TokenHash = tokenHash;
