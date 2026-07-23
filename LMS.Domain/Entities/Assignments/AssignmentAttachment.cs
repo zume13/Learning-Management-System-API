@@ -15,7 +15,6 @@ namespace LMS.Domain.Entities.Assignments
             SizeBytes = sizeBytes;
         }
         public Guid AssignmentId { get; private set; }
-        public Assignment Assignment { get; private set; } = null!;
         public string BucketKey { get; private set; }   // e.g. "assignments/{assignmentId}/instructions.pdf"
         public string FileName { get; private set; } 
         public string ContentType { get; private set; }
