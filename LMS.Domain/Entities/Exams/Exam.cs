@@ -31,7 +31,7 @@ namespace LMS.Domain.Entities.Exams
             if(string.IsNullOrEmpty(title))
                 return ExamErrors.General.Empty(nameof(title));
 
-            if (timeLimitInMinutes < 0)
+            if (timeLimitInMinutes <= 0)
                 return ExamErrors.Exam.InvalidTimeLimit;
 
             return new Exam(Guid.NewGuid(), course, title, timeLimitInMinutes, randomizedQuestions, autoGrade, published);
