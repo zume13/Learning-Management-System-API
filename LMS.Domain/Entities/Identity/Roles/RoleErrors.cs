@@ -6,11 +6,6 @@ namespace LMS.Domain.Entities.Identity.Roles
 {
     public static class RoleErrors
     {
-        public static class GeneralErrors 
-        {
-            public static Error Empty(string errorName) => Error.Failure($"{errorName}.Empty", $"{errorName} cannot be empty.");
-        }
-
         public static class PermissionErrors
         {
             public static Error PermissionAlreadyAssigned(string permissionId) => Error.Failure("Permission.AlreadyAssigned", $"Permission '{permissionId}' is already assigned to the role.");

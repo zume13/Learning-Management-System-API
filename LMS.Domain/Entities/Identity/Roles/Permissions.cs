@@ -16,10 +16,10 @@ namespace LMS.Domain.Entities.Identity.Roles
         public ResultT<Permissions> Create(string permissionName, string description)
         {
             if (string.IsNullOrEmpty(permissionName))
-                return RoleErrors.GeneralErrors.Empty(nameof(permissionName));
+                return GeneralErrors.General.Empty(nameof(permissionName));
 
             if (string.IsNullOrEmpty(description))
-                return RoleErrors.GeneralErrors.Empty(nameof(description));
+                return GeneralErrors.General.Empty(nameof(description));
 
             return new Permissions(Guid.NewGuid(), permissionName, description);
         }   
@@ -27,7 +27,7 @@ namespace LMS.Domain.Entities.Identity.Roles
         public Result UpdatePermissionName(string permissionName)
         {
             if (string.IsNullOrEmpty(permissionName))
-                return RoleErrors.GeneralErrors.Empty(nameof(permissionName));
+                return GeneralErrors.General.Empty(nameof(permissionName));
 
             this.PermissionName = permissionName;
 
@@ -37,7 +37,7 @@ namespace LMS.Domain.Entities.Identity.Roles
         public Result UpdateDescription(string description)
         {
             if (string.IsNullOrEmpty(description))
-                return RoleErrors.GeneralErrors.Empty(nameof(description));
+                return GeneralErrors.General.Empty(nameof(description));
 
             this.Description = description;
 

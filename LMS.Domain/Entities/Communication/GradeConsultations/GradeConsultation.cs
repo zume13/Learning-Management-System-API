@@ -10,7 +10,8 @@ public class GradeConsultation : Entity
         Guid id,
         Guid gradeId,
         Guid studentId,
-        string message) : base(id)
+        string message)
+        : base(id)
     {
         GradeId = gradeId;
         StudentId = studentId;
@@ -34,7 +35,7 @@ public class GradeConsultation : Entity
         string message)
     {
         if (string.IsNullOrWhiteSpace(message))
-            return GradeConsultationErrors.General.Empty(nameof(message));
+            return GeneralErrors.General.Empty(nameof(message));
 
         return new GradeConsultation(
             Guid.NewGuid(),
@@ -43,9 +44,40 @@ public class GradeConsultation : Entity
             message);
     }
 
-    public void Respond(string response)
+    public Result Respond(string response)
     {
+        if (Status != GradeConsultationStatus.Pending)
+            return GradeConsultationErrors.AlreadyResponded;
+
+        if (string.IsNullOrWhiteSpace(response))
+            return GeneralErrors.General.Empty(nameof(response));
+
         Response = response;
         Status = GradeConsultationStatus.Responded;
+
+        return Result.Success();
+    }
+
+    public Result UpdateMessage(string message)
+    {
+        if (Status != GradeConsultationStatus.Pending)
+            return GradeConsultationErrors.CannotModify;
+
+        if (string.IsNullOrWhiteSpace(message))
+            return GeneralErrors.General.Empty(nameof(message));
+
+        Message = message;
+
+        return Result.Success();
+    }
+
+    public Result Close()
+    {
+        if (Status == GradeConsultationStatus.Closed)
+            return GradeConsultationErrors.AlreadyClosed;
+
+        Status = GradeConsultationStatus.Closed;
+
+        return Result.Success();
     }
 }

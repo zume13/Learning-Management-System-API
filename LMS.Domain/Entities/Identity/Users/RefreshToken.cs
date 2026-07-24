@@ -28,13 +28,10 @@ namespace LMS.Domain.Entities.Identity.Users
 
         public Guid? ReplacedByTokenID { get; private set; }
 
-
-        private RefreshToken() { }
-
         public static ResultT<RefreshToken> Create(Guid userId, string tokenHash, DateTime expiryDate, DateTime createDate)
         {
             if (string.IsNullOrWhiteSpace(tokenHash))
-                return UserErrors.RefreshToken.EmptyToken;
+                return GeneralErrors.General.Empty(nameof(tokenHash));
 
             if (expiryDate <= DateTime.UtcNow)
                 return UserErrors.RefreshToken.ExpiredToken;

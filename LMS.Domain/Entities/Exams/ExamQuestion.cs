@@ -41,7 +41,7 @@ public class ExamQuestion : Entity
         string? correctAnswer = null)
     {
         if (string.IsNullOrWhiteSpace(text))
-            return ExamErrors.General.Empty(nameof(text));
+            return GeneralErrors.General.Empty(nameof(text));
 
         if (points <= 0)
             return ExamErrors.Question.InvalidPoints;

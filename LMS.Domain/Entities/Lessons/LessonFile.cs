@@ -26,13 +26,13 @@ namespace LMS.Domain.Entities.Lessons
         public ResultT<LessonFile> Create(Guid lessonId, string bucketKey, string fileName, string contentType, long sizeBytes, DateTime uploadedAt)
         {
             if(lessonId == Guid.Empty)
-                return LessonErrors.LessonFile.EmptyLessonId;
+                return GeneralErrors.General.Empty(nameof(lessonId));
            
             if(string.IsNullOrWhiteSpace(bucketKey))
-                return LessonErrors.LessonFile.EmptyBucketKey;  
+                return GeneralErrors.General.Empty(nameof(bucketKey));  
 
             if(string.IsNullOrWhiteSpace(fileName))
-                return LessonErrors.LessonFile.EmptyFileName;
+                return GeneralErrors.General.Empty(nameof(fileName));
 
             if(string.IsNullOrWhiteSpace(contentType))
                 return LessonErrors.LessonFile.EmptyContentType;

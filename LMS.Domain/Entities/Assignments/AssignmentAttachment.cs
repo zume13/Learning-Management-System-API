@@ -25,11 +25,11 @@ namespace LMS.Domain.Entities.Assignments
         public ResultT<AssignmentAttachment> Create(Guid assigmentId, string bucketKey, string fileName, string contentType, long sizeBytes )
         {
             if (string.IsNullOrWhiteSpace(bucketKey))
-                return AssignmentErrors.General.Empty(nameof(bucketKey));
+                return GeneralErrors.General.Empty(nameof(bucketKey));
             if (string.IsNullOrWhiteSpace(fileName))
-                return AssignmentErrors.General.Empty(nameof(fileName));
+                return GeneralErrors.General.Empty(nameof(fileName));
             if (string.IsNullOrWhiteSpace(contentType))
-                return AssignmentErrors.General.Empty(nameof(contentType));
+                return GeneralErrors.General.Empty(nameof(contentType));
             if (sizeBytes <= 0)
                 return AssignmentErrors.Attachment.FileSizeInvalid;
             if (sizeBytes > 10 * 1024 * 1024) // 10 MB limit

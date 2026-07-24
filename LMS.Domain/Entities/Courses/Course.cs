@@ -48,13 +48,13 @@ namespace LMS.Domain.Entities.Courses
             Guid instructorId)
         {
             if (string.IsNullOrWhiteSpace(courseCode))
-                return CourseErrors.Course.Empty(nameof(courseCode));
+                return GeneralErrors.General.Empty(nameof(courseCode));
 
             if (string.IsNullOrWhiteSpace(courseName))
-                return CourseErrors.Course.Empty(nameof(courseName));
+                return GeneralErrors.General.Empty(nameof(courseName));
 
             if (string.IsNullOrWhiteSpace(courseDescription))
-                return CourseErrors.Course.Empty(nameof(courseDescription));
+                return GeneralErrors.General.Empty(nameof(courseDescription));
 
             if (courseUnits <= 0)
                 return CourseErrors.Course.InvalidUnits();

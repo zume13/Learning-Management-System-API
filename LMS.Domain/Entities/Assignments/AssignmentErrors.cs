@@ -3,11 +3,7 @@
 namespace LMS.Domain.Entities.Assignments
 {
     public static class AssignmentErrors
-    {
-        public static class General
-        {
-            public static Error Empty(string propertyName) => Error.Failure($"{propertyName}.Empty", $"{propertyName} cannot be empty.");
-        }   
+    { 
         public static class Assignment 
         {
             public static Error InvalidDueDate => Error.Failure("Assignment.InvalidDueDate", "Assignment due date cannot be in the past.");

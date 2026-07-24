@@ -23,10 +23,10 @@ namespace LMS.Domain.Entities.Lessons
         public ResultT<VideoLesson> Create(Guid lessonId, string bucketKey, int durationSeconds)
         {
             if (lessonId == Guid.Empty)
-                return LessonErrors.VideoLesson.EmptyLessonId;
+                return GeneralErrors.General.Empty(nameof(lessonId));
 
             if (string.IsNullOrWhiteSpace(bucketKey))
-                return LessonErrors.VideoLesson.EmptyBucketKey;
+                return GeneralErrors.General.Empty(nameof(bucketKey));
 
             if (durationSeconds <= 0)
                 return LessonErrors.VideoLesson.InvalidDuration;

@@ -18,7 +18,7 @@ namespace LMS.Domain.Entities.Identity.Roles
         public ResultT<Role> Create(string roleName)
         {
             if (string.IsNullOrEmpty(roleName))
-                return RoleErrors.GeneralErrors.Empty(nameof(roleName));
+                return GeneralErrors.General.Empty(nameof(roleName));
 
             return new Role(Guid.NewGuid(), roleName);
         }
@@ -46,7 +46,7 @@ namespace LMS.Domain.Entities.Identity.Roles
         public Result UpdateRoleName(string roleName)
         {
             if (string.IsNullOrEmpty(roleName))
-                return RoleErrors.GeneralErrors.Empty(nameof(roleName));
+                return GeneralErrors.General.Empty(nameof(roleName));
             this.RoleName = roleName;
             return Result.Success();
         }

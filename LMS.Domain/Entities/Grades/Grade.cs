@@ -1,6 +1,7 @@
 ﻿using LMS.Domain.Entities.Communication.GradeConsultations;
 using SharedKernel.Primitives;
 using SharedKernel.Shared;
+using System.Net.NetworkInformation;
 
 namespace LMS.Domain.Entities.Grades;
 
@@ -62,9 +63,11 @@ public class Grade : AggregateRoot
         if (Locked)
             return GradeErrors.Grade.Locked;
 
-        Released = true;
         return Result.Success();
     }
 
     public void Lock() => Locked = true;
+
+    public bool IsReleased()
+        => Released == true;
 }

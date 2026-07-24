@@ -9,9 +9,6 @@ namespace LMS.Domain.Entities.Courses
     {
         public class Course
         {
-            public static Error Empty(string errorName) =>
-                Error.Failure($"{errorName}.Empty", $"{errorName} cannot be empty.");
-
             public static Error InvalidUnits() =>
                 Error.Failure(
                     "Course.InvalidUnits", 

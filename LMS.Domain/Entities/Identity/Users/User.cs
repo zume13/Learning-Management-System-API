@@ -28,16 +28,16 @@ namespace LMS.Domain.Entities.Identity.Users
         public ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
             if (string.IsNullOrEmpty(firstName.value))
-                return UserErrors.User.Empty(nameof(firstName));
+                return GeneralErrors.General.Empty(nameof(firstName));
 
             if (string.IsNullOrEmpty(lastName.value))
-                return UserErrors.User.Empty(nameof(lastName));
+                return GeneralErrors.General.Empty(nameof(lastName));
 
             if (string.IsNullOrEmpty(email.value))
-                return UserErrors.User.Empty(nameof(email));
+                return GeneralErrors.General.Empty(nameof(email));
 
             if (string.IsNullOrEmpty(hashedPassword))
-                return UserErrors.User.Empty(nameof(hashedPassword));
+                return GeneralErrors.General.Empty(nameof(hashedPassword));
 
             return new User(Guid.NewGuid(), firstName, lastName, email, hashedPassword);
         }
@@ -85,7 +85,7 @@ namespace LMS.Domain.Entities.Identity.Users
         public Result UpdatePassword(string hashedPassword)
         {
             if (string.IsNullOrEmpty(hashedPassword))
-                return UserErrors.User.Empty(nameof(hashedPassword));
+                return GeneralErrors.General.Empty(nameof(hashedPassword));
 
             this.HashedPassword = hashedPassword;
 
