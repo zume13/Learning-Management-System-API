@@ -47,7 +47,11 @@ public class DiscussionThread : Entity
         string title,
         string body)
     {
-        // validation...
+        if(string.IsNullOrEmpty(title))
+            return GeneralErrors.General.Empty(nameof(title));
+
+        if(string.IsNullOrEmpty(body))
+            return GeneralErrors.General.Empty(nameof(body));
 
         return new DiscussionThread(
             Guid.NewGuid(),
@@ -58,12 +62,30 @@ public class DiscussionThread : Entity
             body);
     }
 
-    public Result AddReply(DiscussionReply reply)
+    public Result AddReply(
+    Guid authorId,
+    string body,
+    Guid? parentReplyId = null)
     {
         if (Locked)
             return DiscussionErrors.Thread.Locked;
 
-        _replies.Add(reply);
+        if (parentReplyId is not null &&
+            !_replies.Any(r => r.Id == parentReplyId))
+        {
+            return DiscussionErrors.Thread.ReplyNotFound;
+        }
+
+        var result = DiscussionReply.Create(
+            Id,
+            authorId,
+            body,
+            parentReplyId);
+
+        if (result.IsFailure)
+            return result;
+
+        _replies.Add(result.value);
 
         return Result.Success();
     }

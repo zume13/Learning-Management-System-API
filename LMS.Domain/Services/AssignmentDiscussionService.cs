@@ -39,4 +39,20 @@ public sealed class AssignmentDiscussionService
 
         return Result.Success();
     }
+
+    public Result AddReply(
+    Assignment assignment,
+    DiscussionThread thread,
+    Guid authorId,
+    string body,
+    Guid? parentReplyId = null)
+    {
+        if (!assignment.AllowDiscussion)
+            return AssignmentErrors.DiscussionDisabled;
+
+        return thread.AddReply(
+            authorId,
+            body,
+            parentReplyId);
+    }
 }

@@ -39,4 +39,20 @@ public sealed class ExamDiscussionService
 
         return Result.Success();
     }
+
+    public Result AddReply(
+    Exam exam,
+    DiscussionThread thread,
+    Guid authorId,
+    string body,
+    Guid? parentReplyId = null)
+    {
+        if (!exam.AllowDiscussion)
+            return ExamErrors.DiscussionDisabled;
+
+        return thread.AddReply(
+            authorId,
+            body,
+            parentReplyId);
+    }
 }

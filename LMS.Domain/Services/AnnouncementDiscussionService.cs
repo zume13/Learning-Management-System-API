@@ -37,4 +37,20 @@ public sealed class AnnouncementDiscussionService
 
         return Result.Success();
     }
+
+    public Result AddReply(
+    Announcement announcement,
+    DiscussionThread thread,
+    Guid authorId,
+    string body,
+    Guid? parentReplyId = null)
+    {
+        if (!announcement.AllowReplies)
+            return AnnouncementErrors.RepliesDisabled;
+
+        return thread.AddReply(
+            authorId,
+            body,
+            parentReplyId);
+    }
 }

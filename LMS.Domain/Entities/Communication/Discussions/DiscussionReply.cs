@@ -5,14 +5,13 @@ namespace LMS.Domain.Entities.Communication.LessonDiscussions;
 
 public class DiscussionReply : Entity
 {
-    private readonly List<DiscussionReply> _replies = [];
-
     private DiscussionReply(
         Guid id,
         Guid discussionThreadId,
         Guid authorId,
         string body,
-        Guid? parentReplyId) : base(id)
+        Guid? parentReplyId)
+        : base(id)
     {
         DiscussionThreadId = discussionThreadId;
         AuthorId = authorId;
@@ -21,17 +20,15 @@ public class DiscussionReply : Entity
         CreatedAt = DateTime.UtcNow;
     }
 
-    public Guid DiscussionThreadId { get; private set; }
+    public Guid DiscussionThreadId { get; }
 
-    public Guid AuthorId { get; private set; }
+    public Guid AuthorId { get; }
 
     public string Body { get; private set; }
 
-    public Guid? ParentReplyId { get; private set; }
+    public Guid? ParentReplyId { get; }
 
-    public DateTime CreatedAt { get; private set; }
-
-    public IReadOnlyCollection<DiscussionReply> Replies => _replies;
+    public DateTime CreatedAt { get; }
 
     public static ResultT<DiscussionReply> Create(
         Guid discussionThreadId,
@@ -50,13 +47,13 @@ public class DiscussionReply : Entity
             parentReplyId);
     }
 
-    public void Edit(string body)
+    public Result Edit(string body)
     {
-        Body = body;
-    }
+        if (string.IsNullOrWhiteSpace(body))
+            return GeneralErrors.General.Empty(nameof(body));
 
-    public void AddReply(DiscussionReply reply)
-    {
-        _replies.Add(reply);
+        Body = body;
+
+        return Result.Success();
     }
 }

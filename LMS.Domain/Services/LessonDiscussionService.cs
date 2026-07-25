@@ -39,4 +39,20 @@ public sealed class LessonDiscussionService
 
         return Result.Success();
     }
+
+    public Result AddReply(
+    Lesson lesson,
+    DiscussionThread thread,
+    Guid authorId,
+    string body,
+    Guid? parentReplyId = null)
+    {
+        if (!lesson.AllowDiscussion)
+            return LessonErrors.DiscussionDisabled;
+
+        return thread.AddReply(
+            authorId,
+            body,
+            parentReplyId);
+    }
 }

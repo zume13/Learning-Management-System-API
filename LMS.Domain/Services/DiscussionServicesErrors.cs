@@ -23,6 +23,10 @@ public static class DiscussionErrors
     public static readonly Error AlreadyUnpinned = Error.Conflict(
         "Discussion.AlreadyUnpinned",
         "The discussion thread is already unpinned.");
+
+    public static readonly Error ReplyNotFound = Error.NotFound(
+    "Discussion.ReplyNotFound",
+    "The parent reply could not be found.");
 }
 
 public static class LessonErrors
