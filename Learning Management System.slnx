@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
   <Project Path="LMS.API/LMS.API.csproj" />
   <Project Path="LMS.Application/LMS.Application.csproj" />
   <Project Path="LMS.Domain/LMS.Domain.csproj" />
