@@ -4,9 +4,9 @@ using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Assessments;
 
-public class QuizGeneratorJob : Entity
+public class QuizGenerator : Entity
 {
-    private QuizGeneratorJob(
+    private QuizGenerator(
         Guid id,
         Guid teacherId,
         string sourcePdfUrl) : base(id)
@@ -24,14 +24,14 @@ public class QuizGeneratorJob : Entity
 
     public QuizGeneratorStatus Status { get; private set; }
 
-    public static ResultT<QuizGeneratorJob> Create(
+    public static ResultT<QuizGenerator> Create(
         Guid teacherId,
         string sourcePdfUrl)
     {
         if (string.IsNullOrWhiteSpace(sourcePdfUrl))
             return GeneralErrors.General.Empty(nameof(sourcePdfUrl));
 
-        return new QuizGeneratorJob(
+        return new QuizGenerator(
             Guid.NewGuid(),
             teacherId,
             sourcePdfUrl);
