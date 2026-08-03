@@ -1,4 +1,4 @@
-﻿using LMS.Application.Abstractions.Database;
+﻿using LMS.Application.Abstractions.Repositories;
 using LMS.Domain.Entities.Assessments;
 using LMS.Domain.Entities.Assignments;
 using LMS.Domain.Entities.Communication;
@@ -13,11 +13,12 @@ using LMS.Domain.Entities.Identity.Users;
 using LMS.Domain.Entities.Lessons;
 using LMS.Domain.Entities.Notifications;
 using LMS.Domain.Entities.Sections;
+using LMS.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Database
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : DbContext, IUnitOfWork
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -69,6 +70,8 @@ namespace LMS.Infrastructure.Persistence.Database
         public DbSet<QuizGenerator> GenerateQuizJobs => Set<QuizGenerator>();
 
         public DbSet<Section> Sections => Set<Section>();
+
+        public DbSet<UserRoles> UserRoles => Set<UserRoles>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -15,7 +15,7 @@ namespace LMS.Domain.Entities.Identity.Roles
         private readonly List<Guid> _permissionIds = new();
         public IReadOnlyCollection<Guid> Permissions => _permissionIds; 
 
-        public ResultT<Role> Create(string roleName)
+        public static ResultT<Role> Create(string roleName)
         {
             if (string.IsNullOrEmpty(roleName))
                 return GeneralErrors.General.Empty(nameof(roleName));

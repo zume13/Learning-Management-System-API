@@ -25,7 +25,7 @@ namespace LMS.Domain.Entities.Identity.Users
         public readonly List<Guid> _CourseIds = new();
         public IReadOnlyCollection<Guid> CourseIds => _CourseIds;
 
-        public ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
+        public static ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
             if (string.IsNullOrEmpty(firstName.value))
                 return GeneralErrors.General.Empty(nameof(firstName));
