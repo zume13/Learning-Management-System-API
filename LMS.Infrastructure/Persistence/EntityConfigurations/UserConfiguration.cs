@@ -1,5 +1,4 @@
-﻿
-using LMS.Domain.Entities.Identity.Roles;
+﻿using LMS.Domain.Entities.Identity.Roles;
 using LMS.Domain.Entities.Identity.Users;
 using LMS.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +16,6 @@ namespace LMS.Infrastructure.Persistence.EntityConfigurations
 
             builder.HasIndex(x => x.Email.value)
                 .IsUnique();
-
-            builder.Navigation(x => x.RoleIds)
-            .UsePropertyAccessMode(PropertyAccessMode.Field);
 
             builder.Property(x => x.FirstName)
                 .HasConversion(
@@ -42,6 +38,12 @@ namespace LMS.Infrastructure.Persistence.EntityConfigurations
             builder.Property(x => x.HashedPassword)
                 .IsRequired()
                 .HasColumnName("hashed_password");
+
+            builder.Metadata.FindNavigation("RoleIds")!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.PrimitiveCollection<List<Guid>>("RoleIds")
+                .HasColumnName("role_ids");
         }
     }
 }

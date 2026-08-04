@@ -22,9 +22,6 @@ namespace LMS.Domain.Entities.Identity.Users
         private readonly List<Guid> _RoleIds = new();
         public IReadOnlyCollection<Guid> RoleIds => _RoleIds;
 
-        public readonly List<Guid> _CourseIds = new();
-        public IReadOnlyCollection<Guid> CourseIds => _CourseIds;
-
         public static ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
             if (string.IsNullOrEmpty(firstName.value))
@@ -88,32 +85,6 @@ namespace LMS.Domain.Entities.Identity.Users
                 return GeneralErrors.General.Empty(nameof(hashedPassword));
 
             this.HashedPassword = hashedPassword;
-
-            return Result.Success();
-        }
-
-        public Result EnrollToCourse(Guid courseId)
-        {
-            if (courseId == Guid.Empty)
-                return UserErrors.User.InvalidCourse;
-
-            if (CourseIds.Contains(courseId))
-                return UserErrors.User.UserAlreadyEnrolled(courseId.ToString());
-
-            _CourseIds.Add(courseId);
-
-            return Result.Success();
-        }
-
-        public Result UnenrollFromCourse(Guid courseId)
-        {
-            if (courseId == Guid.Empty)
-                return UserErrors.User.InvalidCourse;
-
-            if (!CourseIds.Contains(courseId))
-                return UserErrors.User.UserNotEnrolled(courseId.ToString());
-
-            _CourseIds.Remove(courseId);
 
             return Result.Success();
         }
