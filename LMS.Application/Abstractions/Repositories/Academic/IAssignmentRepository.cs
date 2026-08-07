@@ -5,5 +5,6 @@ namespace LMS.Application.Abstractions.Repositories.Academic
 {
     public interface IAssignmentRepository : IRepository<Assignment>
     {
+        //test
     }
 }
