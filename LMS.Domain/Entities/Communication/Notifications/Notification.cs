@@ -1,10 +1,11 @@
 ﻿using LMS.Domain.Entities.Communication.Notifications;
 using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Notifications;
 
-public class Notification : Entity
+public class Notification : AggregateRoot
 {
     private Notification(
         Guid id,

@@ -1,9 +1,9 @@
 ﻿using LMS.Domain.Entities.Communication.Discussions;
 using LMS.Domain.Entities.Communication.LessonDiscussions;
-using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
-public class DiscussionThread : Entity
+public class DiscussionThread : AggregateRoot
 {
     private readonly List<DiscussionReply> _replies = [];
 

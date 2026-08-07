@@ -1,9 +1,10 @@
 ﻿using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Communication;
 
-public class Announcement : Entity
+public class Announcement : AggregateRoot
 {
     private Announcement(
         Guid id,

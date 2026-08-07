@@ -12,8 +12,8 @@ namespace LMS.Domain.Entities.Identity.Roles
 
         public string RoleName { get; private set; }
 
-        private readonly List<Guid> _permissionIds = new();
-        public IReadOnlyCollection<Guid> Permissions => _permissionIds; 
+        private readonly List<Permissions> _permission = new();
+        public IReadOnlyCollection<Permissions> Permissions => _permission; 
 
         public static ResultT<Role> Create(string roleName)
         {
@@ -23,22 +23,22 @@ namespace LMS.Domain.Entities.Identity.Roles
             return new Role(Guid.NewGuid(), roleName);
         }
 
-        public Result AssignPermission(Guid permissionId)
+        public Result AssignPermission(Permissions permission)
         {
-            if (Permissions.Contains(permissionId))
-                return RoleErrors.PermissionErrors.PermissionAlreadyAssigned(permissionId.ToString());
+            if (Permissions.Contains(permission))
+                return RoleErrors.PermissionErrors.PermissionAlreadyAssigned(nameof(permission));
 
-            _permissionIds.Add(permissionId);
+            _permission.Add(permission);
 
             return Result.Success();
         }
 
-        public Result RemovePermission(Guid permissionId)
+        public Result RemovePermission(Permissions permission)
         {
-            if (!Permissions.Contains(permissionId))
-                return RoleErrors.PermissionErrors.PermissionNotAssigned(permissionId.ToString());
+            if (!Permissions.Contains(permission))
+                return RoleErrors.PermissionErrors.PermissionNotAssigned(nameof(permission));
 
-            _permissionIds.Remove(permissionId);
+            _permission.Remove(permission);
 
             return Result.Success();
         } 

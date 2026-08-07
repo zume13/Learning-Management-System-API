@@ -39,11 +39,14 @@ namespace LMS.Infrastructure.Persistence.EntityConfigurations
                 .IsRequired()
                 .HasColumnName("hashed_password");
 
-            builder.Metadata.FindNavigation("RoleIds")!
-                .SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(x => x.RoleId)
+                .IsRequired()
+                .HasColumnName("role_id");
 
-            builder.PrimitiveCollection<List<Guid>>("RoleIds")
-                .HasColumnName("role_ids");
+            builder.HasOne<Role>()
+                .WithMany()
+                .HasForeignKey(x => x.RoleId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

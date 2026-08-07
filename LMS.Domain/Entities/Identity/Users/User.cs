@@ -18,9 +18,7 @@ namespace LMS.Domain.Entities.Identity.Users
         public Name LastName { get; private set; }
         public Email Email { get; private set; }
         public string HashedPassword { get; private set; }
-
-        private readonly List<Guid> _RoleIds = new();
-        public IReadOnlyCollection<Guid> RoleIds => _RoleIds;
+        public Guid RoleId {  get; private set; }
 
         public static ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
         {
@@ -41,10 +39,7 @@ namespace LMS.Domain.Entities.Identity.Users
 
         public Result AssignToRole(Guid roleId)
         {
-            if (RoleIds.Contains(roleId))
-                return UserErrors.User.UserAlreadyInRole(roleId.ToString());
-
-            _RoleIds.Add(roleId);
+            this.RoleId = roleId;
 
             return Result.Success();
         }

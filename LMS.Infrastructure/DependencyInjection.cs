@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using LMS.Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
-using LMS.Application.Abstractions.Database;
+using LMS.Infrastructure.Persistence.Repositories;
+using LMS.Application.Abstractions.Repositories.Identity;
 
 namespace LMS.Infrastructure
 {
@@ -13,11 +14,11 @@ namespace LMS.Infrastructure
             services.AddDbContext<ApplicationDbContext>(opt =>
             {
                 opt.UseNpgsql("Database");
-            });
+            }); 
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<IUserRepository, UserRepository>();
 
-           return services;
+            return services;
         }
     }
 }

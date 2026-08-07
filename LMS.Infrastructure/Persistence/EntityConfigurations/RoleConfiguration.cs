@@ -11,7 +11,16 @@ namespace LMS.Infrastructure.Persistence.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.
+            builder.HasMany(r => r.Permissions)
+                .WithMany()
+                .UsingEntity<Dictionary<string, object>>(
+                    "RolePermission",
+                    j => j.HasOne<Permissions>().WithMany().HasForeignKey("PermissionId").OnDelete(DeleteBehavior.Cascade),
+                    j => j.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.Cascade));
+
+            builder.Property(x => x.RoleName)
+                .IsRequired()
+                .HasColumnName("role_name");
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using LMS.Domain.Entities.QuizGenerator;
 using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Assessments;
 
-public class QuizGenerator : Entity
+public class QuizGenerator : AggregateRoot
 {
     private QuizGenerator(
         Guid id,

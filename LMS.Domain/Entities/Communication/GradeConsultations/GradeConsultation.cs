@@ -1,10 +1,11 @@
 ﻿using LMS.Domain.Entities.Communication.GradeConsultations;
 using LMS.SharedKernel.Primitives;
+using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Grades;
 
-public class GradeConsultation : Entity
+public class GradeConsultation : AggregateRoot
 {
     private GradeConsultation(
         Guid id,
