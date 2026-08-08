@@ -1,4 +1,6 @@
-﻿using LMS.Domain.Entities.Communication;
+﻿using LMS.Application.Abstractions.Repositories.Communication;
+using LMS.Domain.Entities.Communication;
+using LMS.Domain.Entities.Communication.GradeConsultations;
 using LMS.Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,44 +9,14 @@ using System.Text;
 
 namespace LMS.Infrastructure.Persistence.Repositories.Communication
 {
-    public class AnnouncementRepository
+    public class AnnouncementRepository : Repository<Announcement>, IAnnouncementRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public AnnouncementRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task AddAsync(Announcement aggregate, CancellationToken cancellationToken = default)
-        {
-            await _context.Announcements.AddAsync(aggregate, cancellationToken);
-        }
-
-        public async Task<Announcement> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            var announcement = await _context.Announcements.FindAsync(id, cancellationToken);
-
-            if (announcement == null)
-                throw new InvalidOperationException("No Announcement??");
-
-            return announcement;
-        }
-
-        public void RemoveAsync(Announcement aggregate)
-        {
-            _context.Announcements.Remove(aggregate);
-        }
-
-        public void UpdateAsync(Announcement aggregate)
-        {
-            _context.Announcements.Update(aggregate);
-        }
+        public AnnouncementRepository(ApplicationDbContext context) : base(context) { }
 
         // All announcements for a single course
         public async Task<List<Announcement>> GetByCourseIdAsync(Guid courseId, CancellationToken cancellationToken = default)
         {
-            return await _context.Announcements
+            return await _dbContext.Announcements
                 .Where(c => c.CourseId == courseId)
                 .OrderByDescending(h => h.CreatedAt)
                 .ToListAsync(cancellationToken);
@@ -53,7 +25,7 @@ namespace LMS.Infrastructure.Persistence.Repositories.Communication
         // Same thing but for pinned
         public async Task<List<Announcement>> GetPinnedByCourseIdAsync(Guid courseId, CancellationToken cancellationToken = default)
         {
-            return await _context.Announcements
+            return await _dbContext.Announcements
                 .Where(e => e.CourseId == courseId && e.Pinned)
                 .OrderByDescending(s => s.CreatedAt)
                 .ToListAsync(cancellationToken);
