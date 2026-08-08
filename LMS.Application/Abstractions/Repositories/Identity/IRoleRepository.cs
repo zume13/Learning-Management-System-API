@@ -1,13 +1,10 @@
-﻿using LMS.Domain.Entities.Identity.Roles;
+﻿using LMS.Application.Abstractions.Repositories.Base;
+using LMS.Domain.Entities.Identity.Roles;
 
 namespace LMS.Application.Abstractions.Repositories;
 
-public interface IRoleRepository
+public interface IRoleRepository : IRepository<Role>
 {
-    Task<Role?> GetByIdAsync(
-        Guid id,
-        CancellationToken cancellationToken = default);
-
     Task<Role?> GetByNameAsync(
         string roleName,
         CancellationToken cancellationToken = default);
@@ -18,12 +15,4 @@ public interface IRoleRepository
 
     Task<IReadOnlyList<Role>> GetAllAsync(
         CancellationToken cancellationToken = default);
-
-    Task AddAsync(
-        Role role,
-        CancellationToken cancellationToken = default);
-
-    void Update(Role role);
-
-    void Remove(Role role);
 }

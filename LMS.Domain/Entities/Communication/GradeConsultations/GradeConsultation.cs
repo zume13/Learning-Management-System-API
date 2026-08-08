@@ -1,9 +1,7 @@
-﻿using LMS.Domain.Entities.Communication.GradeConsultations;
-using LMS.SharedKernel.Primitives;
-using SharedKernel.Primitives;
+﻿using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
-namespace LMS.Domain.Entities.Grades;
+namespace LMS.Domain.Entities.Communication.GradeConsultations;
 
 public class GradeConsultation : AggregateRoot
 {
