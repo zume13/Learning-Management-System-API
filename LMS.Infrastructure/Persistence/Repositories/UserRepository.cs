@@ -1,5 +1,4 @@
-﻿using LMS.Application.Abstractions.Repositories.Base;
-using LMS.Application.Abstractions.Repositories.Identity;
+﻿using LMS.Application.Abstractions.Repositories.Identity;
 using LMS.Domain.Entities.Identity.Users;
 using LMS.Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
@@ -8,19 +7,17 @@ namespace LMS.Infrastructure.Persistence.Repositories;
 
 public sealed class UserRepository : Repository<User>, IUserRepository
 {
-    private readonly ApplicationDbContext _context;
 
     public UserRepository(ApplicationDbContext context)
         : base(context)
     {
-        _context = context;
     }
 
     public async Task<User?> GetByEmailAsync(
         string email,
         CancellationToken cancellationToken = default)
     {
-        return await _context.Users
+        return await _dbContext.Users
             .FirstOrDefaultAsync(
                 user => user.Email.value == email,
                 cancellationToken);
@@ -30,7 +27,7 @@ public sealed class UserRepository : Repository<User>, IUserRepository
         string email,
         CancellationToken cancellationToken = default)
     {
-        return await _context.Users
+        return await _dbContext.Users
             .AnyAsync(
                 user => user.Email.value == email,
                 cancellationToken);

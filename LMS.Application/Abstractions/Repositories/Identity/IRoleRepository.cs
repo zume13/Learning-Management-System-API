@@ -13,6 +13,6 @@ public interface IRoleRepository : IRepository<Role>
         string roleName,
         CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<Role>> GetAllAsync(
+    Task<IReadOnlyList<Role>> GetAllRolesAsync(
         CancellationToken cancellationToken = default);
 }

@@ -6,39 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Repositories
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository : Repository<Course>, ICourseRepository
     {
-        private readonly ApplicationDbContext _context; 
-
-        public CourseRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }   
-
-        public async Task AddAsync(Course aggregate, CancellationToken cancellationToken = default)
-        {
-            await _context.Courses.AddAsync(aggregate, cancellationToken);
-        }
-
-        public async Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await _context.Courses.FindAsync(id, cancellationToken);
-
-        }
+        public CourseRepository(ApplicationDbContext context) : base(context) {}   
 
         public async Task<Course?> GetByNameAsync(string name)
         {
-            return await _context.Courses.FirstOrDefaultAsync(c => c.CourseName == name);
-        }
-
-        public void RemoveAsync(Course aggregate)
-        {
-            _context.Courses.Remove(aggregate);
-        }
-
-        public void UpdateAsync(Course aggregate)
-        {
-            _context.Courses.Update(aggregate);
+            return await _dbContext.Courses.FirstOrDefaultAsync(c => c.CourseName == name);
         }
     }
 }

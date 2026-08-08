@@ -5,20 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Repositories;
 
-public sealed class RoleRepository : IRoleRepository, Repository<Role>
+public sealed class RoleRepository : Repository<Role>, IRoleRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public RoleRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    public RoleRepository(ApplicationDbContext context) : base(context) { }
 
     public async Task<Role?> GetByNameAsync(
         string roleName,
         CancellationToken cancellationToken = default)
     {
-        var role = await _context.Roles
+        var role = await _dbContext.Roles
             .FirstOrDefaultAsync(
                 x => x.RoleName == roleName,
                 cancellationToken);
@@ -26,7 +21,7 @@ public sealed class RoleRepository : IRoleRepository, Repository<Role>
         if (role is null)
             return null;
 
-        var permissionIds = await _context.RolePermissions
+        var permissionIds = await _dbContext.RolePermissions
             .Where(x => x.RoleId == role.Id)
             .Select(x => x.PermissionId)
             .ToListAsync(cancellationToken);
@@ -40,23 +35,23 @@ public sealed class RoleRepository : IRoleRepository, Repository<Role>
         string roleName,
         CancellationToken cancellationToken = default)
     {
-        return _context.Roles
+        return _dbContext.Roles
             .AnyAsync(
                 x => x.RoleName == roleName,
                 cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Role>> GetAllAsync(
+    public async Task<IReadOnlyList<Role>> GetAllRolesAsync(
         CancellationToken cancellationToken = default)
     {
-        var roles = await _context.Roles
+        var roles = await _dbContext.Roles
             .ToListAsync(cancellationToken);
 
         var roleIds = roles
             .Select(x => x.Id)
             .ToList();
 
-        var permissions = await _context.RolePermissions
+        var permissions = await _dbContext.RolePermissions
             .Where(x => roleIds.Contains(x.RoleId))
             .ToListAsync(cancellationToken);
 
@@ -71,9 +66,16 @@ public sealed class RoleRepository : IRoleRepository, Repository<Role>
 
         return roles;
     }
+
+    public override void Update(Role role)
+    {
+        _dbContext.Roles.Update(role);
+
+        SyncPermissions(role);
+    }
     private void SyncPermissions(Role role)
     {
-        var existingPermissions = _context.RolePermissions
+        var existingPermissions = _dbContext.RolePermissions
             .Where(x => x.RoleId == role.Id)
             .ToList();
 
@@ -84,7 +86,7 @@ public sealed class RoleRepository : IRoleRepository, Repository<Role>
             .Where(x => !desiredPermissionIds.Contains(x.PermissionId))
             .ToList();
 
-        _context.RolePermissions.RemoveRange(
+        _dbContext.RolePermissions.RemoveRange(
             permissionsToRemove);
 
         var existingPermissionIds = existingPermissions
@@ -99,7 +101,7 @@ public sealed class RoleRepository : IRoleRepository, Repository<Role>
                 PermissionId = permissionId
             });
 
-        _context.RolePermissions.AddRange(
+        _dbContext.RolePermissions.AddRange(
             permissionsToAdd);
     }
 }

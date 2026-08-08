@@ -6,6 +6,8 @@ namespace LMS.Application.Abstractions.Repositories.Base
     {
         Task<TAggregate?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
+        Task<List<TAggregate>> GetAllAsync(CancellationToken cancellationToken = default);
+
         Task AddAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
 
         void Update(TAggregate aggregate);
