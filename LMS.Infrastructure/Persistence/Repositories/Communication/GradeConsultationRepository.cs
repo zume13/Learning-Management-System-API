@@ -13,7 +13,7 @@ namespace LMS.Infrastructure.Persistence.Repositories.Communication
         public async Task<List<GradeConsultation>> GetByStudentIdAsync(Guid studentId, CancellationToken cancellationToken = default)
         {
             return await _dbContext.GradeConsultations
-                .Where(g => g.StudentId == studentId)
+                .Where(k => k.StudentId == studentId)
                 .ToListAsync(cancellationToken);
         }
 
@@ -21,7 +21,7 @@ namespace LMS.Infrastructure.Persistence.Repositories.Communication
         public async Task<List<GradeConsultation>> GetPendingAsync(CancellationToken cancellationToken = default)
         {
             return await _dbContext.GradeConsultations
-                .Where(g => g.Status == GradeConsultationStatus.Pending)
+                .Where(a => a.Status == GradeConsultationStatus.Pending)
                 .ToListAsync(cancellationToken);
         }
     }
