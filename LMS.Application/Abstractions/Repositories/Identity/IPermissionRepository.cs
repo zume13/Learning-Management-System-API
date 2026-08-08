@@ -1,29 +1,29 @@
-﻿using LMS.Domain.Entities.Identity.Roles;
+﻿using LMS.Domain.Entities.Identity.Permissions;
 
 namespace LMS.Application.Abstractions.Repositories;
 
-public interface IRoleRepository
+public interface IPermissionRepository
 {
-    Task<Role?> GetByIdAsync(
+    Task<Permission?> GetByIdAsync(
         Guid id,
         CancellationToken cancellationToken = default);
 
-    Task<Role?> GetByNameAsync(
-        string roleName,
+    Task<Permission?> GetByNameAsync(
+        string permissionName,
         CancellationToken cancellationToken = default);
 
     Task<bool> ExistsByNameAsync(
-        string roleName,
+        string permissionName,
         CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<Role>> GetAllAsync(
+    Task<IReadOnlyList<Permission>> GetAllAsync(
         CancellationToken cancellationToken = default);
 
     Task AddAsync(
-        Role role,
+        Permission permission,
         CancellationToken cancellationToken = default);
 
-    void Update(Role role);
+    void Update(Permission permission);
 
-    void Remove(Role role);
+    void Remove(Permission permission);
 }

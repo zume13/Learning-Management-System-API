@@ -2,32 +2,39 @@
 using Microsoft.EntityFrameworkCore;
 using SharedKernel.Shared;
 
-namespace LMS.Infrastructure.Persistence.Database
+namespace LMS.Infrastructure.Persistence.Database;
+
+public sealed class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApplicationDbContext _context;
+
+    public UnitOfWork(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public UnitOfWork(ApplicationDbContext context)
+    public async Task<Result> SaveChangesAsync(
+        CancellationToken cancellationToken = default)
+    {
+        try
         {
-            _context = context;
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Result.Success();
         }
-
-        public async Task<Result> SaveChangesAsync(CancellationToken ct = default)
+        catch (DbUpdateException)
         {
-            try
-            {
-                await _context.SaveChangesAsync(ct);
-                return Result.Success();
-            }
-            catch (DbUpdateException ex)
-            {
-                return Result.Failure(Error.Failure("DB.UpdateException", $"Db failed to be updated, Error: {ex.Message}"));
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure(Error.Failure("Unexpected.Error", $"An unexpected error occurred: {ex.Message}"));
-            }
+            return Result.Failure(
+                Error.Failure(
+                    "Database.UpdateFailed",
+                    "The database update failed."));
+        }
+        catch (Exception)
+        {
+            return Result.Failure(
+                Error.Failure(
+                    "Database.UnexpectedError",
+                    "An unexpected database error occurred."));
         }
     }
 }
