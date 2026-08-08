@@ -8,16 +8,19 @@ using LMS.Domain.Entities.Courses;
 using LMS.Domain.Entities.Enrollments;
 using LMS.Domain.Entities.Exams;
 using LMS.Domain.Entities.Grades;
+using LMS.Domain.Entities.Identity.Permissions;
 using LMS.Domain.Entities.Identity.Roles;
 using LMS.Domain.Entities.Identity.Users;
 using LMS.Domain.Entities.Lessons;
 using LMS.Domain.Entities.Notifications;
 using LMS.Domain.Entities.Sections;
+using LMS.Infrastructure.Persistence.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Shared;
 
 namespace LMS.Infrastructure.Persistence.Database
 {
-    public class ApplicationDbContext : DbContext, IUnitOfWork
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -25,7 +28,7 @@ namespace LMS.Infrastructure.Persistence.Database
 
         public DbSet<Role> Roles => Set<Role>();
 
-        public DbSet<Permissions> Permissions => Set<Permissions>();
+        public DbSet<Permission> Permissions => Set<Permission>();
 
         public DbSet<Assignment> Assignments => Set<Assignment>();
 
@@ -69,6 +72,8 @@ namespace LMS.Infrastructure.Persistence.Database
         public DbSet<QuizGenerator> GenerateQuizJobs => Set<QuizGenerator>();
 
         public DbSet<Section> Sections => Set<Section>();
+
+        public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

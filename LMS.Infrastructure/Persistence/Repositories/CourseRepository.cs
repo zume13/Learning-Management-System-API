@@ -20,14 +20,10 @@ namespace LMS.Infrastructure.Persistence.Repositories
             await _context.Courses.AddAsync(aggregate, cancellationToken);
         }
 
-        public async Task<Course> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var course = await _context.Courses.FindAsync(id, cancellationToken);
+            return await _context.Courses.FindAsync(id, cancellationToken);
 
-            if (course == null)
-                throw new InvalidOperationException("Course not found");
-
-            return course;
         }
 
         public async Task<Course?> GetByNameAsync(string name)
