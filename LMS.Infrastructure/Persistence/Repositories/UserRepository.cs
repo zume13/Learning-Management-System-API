@@ -1,12 +1,7 @@
 ﻿using LMS.Application.Abstractions.Repositories.Identity;
 using LMS.Domain.Entities.Identity.Users;
-using LMS.Domain.ValueObjects;
 using LMS.Infrastructure.Persistence.Database;
 using Microsoft.EntityFrameworkCore;
-using SharedKernel.Shared;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LMS.Infrastructure.Persistence.Repositories
 {

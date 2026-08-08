@@ -5,5 +5,6 @@ namespace LMS.Application.Abstractions.Repositories.Records
 {
     public interface ICourseRepository : IRepository<Course>
     {
+        Task<Course?> GetByNameAsync(string name);
     }
 }

@@ -5,5 +5,6 @@ namespace LMS.Application.Abstractions.Repositories.Records
 {
     public interface IEnrollmentRepository : IRepository<Enrollment>
     {
+        Task GetBySectionIdAsync(Guid sectionId);
     }
 }
