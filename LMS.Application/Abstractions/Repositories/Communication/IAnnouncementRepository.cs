@@ -5,5 +5,7 @@ namespace LMS.Application.Abstractions.Repositories.Communication
 {
     public interface IAnnouncementRepository : IRepository<Announcement>
     {
+        Task<List<Announcement>> GetByCourseIdAsync(Guid courseId, CancellationToken cancellationToken = default);
+        Task<List<Announcement>> GetPinnedByCourseIdAsync(Guid courseId, CancellationToken cancellation = default);
     }
 }
