@@ -1,6 +1,4 @@
-﻿using LMS.Domain.Entities.Communication.GradeConsultations;
-using LMS.SharedKernel.Primitives;
-using SharedKernel.Primitives;
+﻿using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Entities.Communication.GradeConsultations;

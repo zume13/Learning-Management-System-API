@@ -8,8 +8,8 @@ namespace LMS.Application.Abstractions.Repositories.Base
 
         Task AddAsync(TAggregate aggregate, CancellationToken cancellationToken = default);
 
-        void UpdateAsync(TAggregate aggregate);
+        void Update(TAggregate aggregate);
 
-        void RemoveAsync(TAggregate aggregate);
+        void Remove(TAggregate aggregate);
     }
 }

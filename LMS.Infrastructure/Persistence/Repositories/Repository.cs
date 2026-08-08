@@ -20,22 +20,17 @@ namespace LMS.Infrastructure.Persistence.Repositories
             await _dbContext.Set<TAggregate>().AddAsync(aggregate, cancellationToken);
         }
 
-        public async Task<TAggregate> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<TAggregate?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var aggregate = await _dbContext.Set<TAggregate>().FindAsync(new object[] { id }, cancellationToken);
-
-            if (aggregate == null)
-                throw new InvalidOperationException("Aggregate not found");
-            
-            return aggregate;
+            return await _dbContext.Set<TAggregate>().FindAsync(new object[] { id }, cancellationToken);
         }
 
-        public void RemoveAsync(TAggregate aggregate)
+        public void Remove(TAggregate aggregate)
         {
             _dbContext.Set<TAggregate>().Remove(aggregate);
         }
 
-        public void UpdateAsync(TAggregate aggregate)
+        public void Update(TAggregate aggregate)
         {
             _dbContext.Set<TAggregate>().Update(aggregate);
         }

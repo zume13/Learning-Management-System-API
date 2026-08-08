@@ -1,40 +1,17 @@
 ﻿using LMS.Application.Abstractions.Repositories;
-using LMS.Domain.Entities.Identity.Roles;
 using LMS.Infrastructure.Persistence.Database;
 using LMS.Infrastructure.Persistence.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Repositories;
 
-internal sealed class RoleRepository : IRoleRepository
+public sealed class RoleRepository : IRoleRepository, Repository<Role>
 {
     private readonly ApplicationDbContext _context;
 
     public RoleRepository(ApplicationDbContext context)
     {
         _context = context;
-    }
-
-    public async Task<Role?> GetByIdAsync(
-        Guid id,
-        CancellationToken cancellationToken = default)
-    {
-        var role = await _context.Roles
-            .FirstOrDefaultAsync(
-                x => x.Id == id,
-                cancellationToken);
-
-        if (role is null)
-            return null;
-
-        var permissionIds = await _context.RolePermissions
-            .Where(x => x.RoleId == id)
-            .Select(x => x.PermissionId)
-            .ToListAsync(cancellationToken);
-
-        role.LoadPermissionIds(permissionIds);
-
-        return role;
     }
 
     public async Task<Role?> GetByNameAsync(
@@ -94,39 +71,6 @@ internal sealed class RoleRepository : IRoleRepository
 
         return roles;
     }
-
-    public async Task AddAsync(
-        Role role,
-        CancellationToken cancellationToken = default)
-    {
-        await _context.Roles.AddAsync(
-            role,
-            cancellationToken);
-
-        foreach (var permissionId in role.PermissionIds)
-        {
-            await _context.RolePermissions.AddAsync(
-                new RolePermission
-                {
-                    RoleId = role.Id,
-                    PermissionId = permissionId
-                },
-                cancellationToken);
-        }
-    }
-
-    public void Update(Role role)
-    {
-        _context.Roles.Update(role);
-
-        SyncPermissions(role);
-    }
-
-    public void Remove(Role role)
-    {
-        _context.Roles.Remove(role);
-    }
-
     private void SyncPermissions(Role role)
     {
         var existingPermissions = _context.RolePermissions
