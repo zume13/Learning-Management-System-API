@@ -1,28 +1,47 @@
 ﻿using LMS.Application.Abstractions.Repositories.Records;
 using LMS.Domain.Entities.Sections;
+using LMS.Infrastructure.Persistence.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Repositories
 {
     public class SectionRepository : ISectionRepository
     {
-        public Task AddAsync(Section aggregate, CancellationToken cancellationToken = default)
+        private readonly ApplicationDbContext _context;
+
+        public SectionRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        
+        public async Task AddAsync(Section aggregate, CancellationToken cancellationToken = default)
+        {
+            await _context.Sections.AddAsync(aggregate, cancellationToken);
         }
 
-        public Task<Section> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Section?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var section = await _context.Sections.FindAsync(id, cancellationToken);
+
+            if (section == null)
+                throw new InvalidOperationException("Section not found");
+
+            return section;
+        }
+
+        public async Task<Section?> GetByNameAsync(string name)
+        {
+            return await _context.Sections.FirstOrDefaultAsync(s => s.Name == name);
         }
 
         public void RemoveAsync(Section aggregate)
         {
-            throw new NotImplementedException();
+            _context.Sections.Remove(aggregate);
         }
 
         public void UpdateAsync(Section aggregate)
         {
-            throw new NotImplementedException();
+            _context.Sections.Update(aggregate);
         }
     }
 }
