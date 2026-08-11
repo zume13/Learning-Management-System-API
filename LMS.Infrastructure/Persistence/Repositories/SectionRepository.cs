@@ -1,28 +1,19 @@
 ﻿using LMS.Application.Abstractions.Repositories.Records;
 using LMS.Domain.Entities.Sections;
+using LMS.Infrastructure.Persistence.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS.Infrastructure.Persistence.Repositories
 {
-    public class SectionRepository : ISectionRepository
+    public class SectionRepository : Repository<Section>, ISectionRepository
     {
-        public Task AddAsync(Section aggregate, CancellationToken cancellationToken = default)
+        public SectionRepository(ApplicationDbContext context) : base(context)
         {
-            throw new NotImplementedException();
         }
 
-        public Task<Section> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<Section?> GetByNameAsync(string name)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveAsync(Section aggregate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateAsync(Section aggregate)
-        {
-            throw new NotImplementedException();
+            return await _dbContext.Sections.FirstOrDefaultAsync(s => s.Name == name);
         }
     }
 }

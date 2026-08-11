@@ -2,86 +2,109 @@
 using SharedKernel.Primitives;
 using SharedKernel.Shared;
 
-namespace LMS.Domain.Entities.Identity.Users
+namespace LMS.Domain.Entities.Identity.Users;
+
+public class User : AggregateRoot
 {
-    public class User : AggregateRoot
+    private User(
+        Guid id,
+        Name firstName,
+        Name lastName,
+        Email email,
+        string hashedPassword)
+        : base(id)
     {
-        private User(Guid id, Name firstName, Name lastName, Email email, string hashedPassword)
-            : base(id)
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            HashedPassword = hashedPassword;
-        }
-        public Name FirstName { get; private set; }
-        public Name LastName { get; private set; }
-        public Email Email { get; private set; }
-        public string HashedPassword { get; private set; }
-        public Guid RoleId {  get; private set; }
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        HashedPassword = hashedPassword;
+    }
 
-        public static ResultT<User> Create(Name firstName, Name lastName, Email email, string hashedPassword)
-        {
-            if (string.IsNullOrEmpty(firstName.value))
-                return GeneralErrors.General.Empty(nameof(firstName));
+    public Name FirstName { get; private set; }
 
-            if (string.IsNullOrEmpty(lastName.value))
-                return GeneralErrors.General.Empty(nameof(lastName));
+    public Name LastName { get; private set; }
 
-            if (string.IsNullOrEmpty(email.value))
-                return GeneralErrors.General.Empty(nameof(email));
+    public Email Email { get; private set; }
 
-            if (string.IsNullOrEmpty(hashedPassword))
-                return GeneralErrors.General.Empty(nameof(hashedPassword));
+    public string HashedPassword { get; private set; }
 
-            return new User(Guid.NewGuid(), firstName, lastName, email, hashedPassword);
-        }
+    public Guid RoleId { get; private set; }
 
-        public Result AssignToRole(Guid roleId)
-        {
-            this.RoleId = roleId;
+    public static ResultT<User> Create(
+        Name firstName,
+        Name lastName,
+        Email email,
+        string hashedPassword)
+    {
+        if (string.IsNullOrWhiteSpace(firstName.value))
+            return GeneralErrors.General.Empty(nameof(firstName));
 
-            return Result.Success();
-        }
+        if (string.IsNullOrWhiteSpace(lastName.value))
+            return GeneralErrors.General.Empty(nameof(lastName));
 
-        public Result UpdateName(string firstName, string lastName)
-        {
-            var _firstName = Name.Create(firstName);
+        if (string.IsNullOrWhiteSpace(email.value))
+            return GeneralErrors.General.Empty(nameof(email));
 
-            if (_firstName.IsFailure)
-                return _firstName.Error;
+        if (string.IsNullOrWhiteSpace(hashedPassword))
+            return GeneralErrors.General.Empty(nameof(hashedPassword));
 
-            var _lastName = Name.Create(lastName);
+        return new User(
+            Guid.NewGuid(),
+            firstName,
+            lastName,
+            email,
+            hashedPassword);
+    }
 
-            if (_lastName.IsFailure)
-                return _lastName.Error;
+    public Result AssignToRole(Guid roleId)
+    {
+        if (roleId == Guid.Empty)
+            return GeneralErrors.General.Empty(nameof(roleId));
 
-            this.FirstName = _firstName.value;
-            this.LastName = _lastName.value;
+        RoleId = roleId;
 
-            return Result.Success();
-        }
+        return Result.Success();
+    }
 
-        public Result UpdateEmail(string email)
-        {
-            var _email = Email.Create(email);
+    public Result UpdateName(
+        string firstName,
+        string lastName)
+    {
+        var newFirstName = Name.Create(firstName);
 
-            if (_email.IsFailure)
-                return _email.Error;
+        if (newFirstName.IsFailure)
+            return newFirstName.Error;
 
-            this.Email = _email.value;
+        var newLastName = Name.Create(lastName);
 
-            return Result.Success();
-        }
+        if (newLastName.IsFailure)
+            return newLastName.Error;
 
-        public Result UpdatePassword(string hashedPassword)
-        {
-            if (string.IsNullOrEmpty(hashedPassword))
-                return GeneralErrors.General.Empty(nameof(hashedPassword));
+        FirstName = newFirstName.value;
+        LastName = newLastName.value;
 
-            this.HashedPassword = hashedPassword;
+        return Result.Success();
+    }
 
-            return Result.Success();
-        }
+    public Result UpdateEmail(string email)
+    {
+        var newEmail = Email.Create(email);
+
+        if (newEmail.IsFailure)
+            return newEmail.Error;
+
+        Email = newEmail.value;
+
+        return Result.Success();
+    }
+
+    public Result UpdatePassword(string hashedPassword)
+    {
+        if (string.IsNullOrWhiteSpace(hashedPassword))
+            return GeneralErrors.General.Empty(nameof(hashedPassword));
+
+        HashedPassword = hashedPassword;
+
+        return Result.Success();
     }
 }
