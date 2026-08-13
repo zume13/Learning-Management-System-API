@@ -1,4 +1,5 @@
-﻿using LMS.Domain.Entities.Grades;
+﻿using LMS.Domain.Entities.Communication.GradeConsultations;
+using LMS.Domain.Entities.Grades;
 using SharedKernel.Shared;
 
 namespace LMS.Domain.Services;
