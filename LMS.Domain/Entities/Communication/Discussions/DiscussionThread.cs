@@ -5,7 +5,7 @@ using SharedKernel.Shared;
 
 public class DiscussionThread : AggregateRoot
 {
-    private readonly List<DiscussionReply> _replies = [];
+    
 
     private DiscussionThread(
         Guid id,
@@ -37,6 +37,8 @@ public class DiscussionThread : AggregateRoot
 
     public bool Pinned { get; private set; }
     public DateTime CreatedAt { get; private set; }
+
+    private readonly List<DiscussionReply> _replies = new();
 
     public IReadOnlyCollection<DiscussionReply> Replies => _replies;
 

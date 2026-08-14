@@ -9,7 +9,7 @@ namespace LMS.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<AssignmentAttachment> builder)
         {
-            builder.ToTable("AssignmentAttachment");
+            builder.ToTable("AssignmentAttachments");
 
             builder.HasKey(x => x.Id);
 
